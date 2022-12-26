@@ -1,9 +1,8 @@
-import './globals.css'
 
-export default function RootLayout({
+export default function BlogLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -12,9 +11,10 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}
-      <div>huy</div>
+      <body>
+        {children}
+        <div>cu anh oc cho</div>
       </body>
     </html>
-  )
+  );
 }
