@@ -1,9 +1,9 @@
 'use client'
 import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs'
-import { useAppContext } from '../utils/context'
+import { useAppContext as UseAppContext  } from '../utils/context'
 
 export default function btnSetDarkMode() {
-    const { isDark, setIsDark } = useAppContext()
+    const { isDark, setIsDark } = UseAppContext()
     return (
         <>
             {isDark ? (
