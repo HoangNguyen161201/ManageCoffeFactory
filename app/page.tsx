@@ -1,13 +1,8 @@
-import {Inter} from '@next/font/google'
-
-const inter = Inter({
-  subsets: ['latin']
-})
 
 export default function Home() {
   return (
-    <div style={{...inter.style, color: 'red'}}>
-        nguyen quang hoang 
-    </div>
-  )
+    <h1 className="m-12 text-4xl text-red-600">
+      Welcome Mom
+    </h1>
+  );
 }
