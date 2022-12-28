@@ -1,4 +1,5 @@
 import { Model, model, models, Schema } from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
 
 export interface IUser {
     password: string
@@ -22,6 +23,9 @@ const userSchema = new Schema<IUser>({
         default: 'user',
     },
 }, {timestamps: true})
+
+//Add plugin
+userSchema.plugin(mongooseDelete, {overrideMethods: 'all', deletedAt: true});
 
 const UserModel = models.User as Model<IUser, {}, {}, {}, any> || model<IUser>('User', userSchema)
 
