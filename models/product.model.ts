@@ -16,7 +16,7 @@ const productSchema = new Schema<IProduct>({
 }, {timestamps: true})
 
 //Add plugin
-productSchema.plugin(mongooseDelete);
+productSchema.plugin(mongooseDelete, {overrideMethods: 'all',deletedAt: true});
 
 const ProductModel = models.Product as Model<IProduct, {}, {}, {}, any> || model<IProduct>('Product', productSchema)
 

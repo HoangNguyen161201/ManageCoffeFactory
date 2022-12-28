@@ -25,7 +25,10 @@ const deleteProduct = handleCatchError(
                 })
             }
 
-            console.log(existProduct)
+            //delete product
+            existProduct.delete({
+                _id: productId
+            })
 
             return res.status(200).json({
                 statusCode: 200,
