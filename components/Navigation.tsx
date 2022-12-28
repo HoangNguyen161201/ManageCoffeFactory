@@ -7,10 +7,32 @@ import { RiPriceTag3Line } from 'react-icons/ri'
 import LinkNavigation from './LinkNavigation'
 import { CgMathPercent } from 'react-icons/cg'
 import { AiOutlineHome } from 'react-icons/ai'
+import { useQuery } from 'react-query'
+import axios from 'axios'
+import LinksNavigation from './LinksNavigation'
+import {CiCoffeeBean} from 'react-icons/ci'
 
 export default function Navigation() {
     const { isOpenMenu, setIsOpenMenu, setIsLoading } = useAppContext()
     const router = useRouter()
+    const { data: productsData } = useQuery<{
+        data: {
+            products: Array<{
+                _id: string
+                name: string
+            }>
+        }
+    }>(
+        'product',
+        () => {
+            return axios.get('/api/product')
+        },
+        {
+            retry: 2,
+            staleTime: 5,
+        }
+    )
+
     return (
         <div
             className={`fixed flex flex-col top-0 transition duration-300 w-full h-screen bg-white border left-0 ${
@@ -39,6 +61,17 @@ export default function Navigation() {
                     icon={<CgMathPercent size={18} />}
                     link="/main/calculator"
                     text="Máy tính"
+                />
+                
+                <LinksNavigation
+                    icon={<CgMathPercent size={18} />}
+                    text="Sản phẩm"
+                    data={productsData?.data.products && productsData.data.products.map(item => ({
+                        icon: <CiCoffeeBean size={18}/>,
+                        link: '/',
+                        text: item.name
+                    }))}
+
                 />
             </div>
             <div className="p-6 w-full">
