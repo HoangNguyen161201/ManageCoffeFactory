@@ -1,10 +1,9 @@
 'use client'
-
 import {useEffect} from 'react'
-import { useAppContext } from "../../../utils/context";
-import {useRouter} from 'next/navigation'
+import {useAppContext} from '../../utils/context'
+import { useRouter } from "next/navigation";
 
-export default function calculatorPage() {
+export default function page() {
   const {setIsLoading} = useAppContext()
   const router = useRouter()
   useEffect(()=> {
@@ -13,9 +12,7 @@ export default function calculatorPage() {
     setIsLoading(true)
     router.push('/login')
   }, [])
-
-  const {isDark} = useAppContext()
   return (
-    <div className={isDark ? 'dark': ''}>page</div>
+    <div>page</div>
   )
 }
