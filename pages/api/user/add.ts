@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import bcrypt from 'bcrypt'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import UserModel, { IUser } from '../../../models/userModel'
+import UserModel, { IUser } from '../../../models/user.model'
 import handleCatchError from '../../../utils/catchAsyncError'
 import { DataResponse } from '../../../utils/commonTypes'
 import connectMongo from '../../../utils/connectMongo'

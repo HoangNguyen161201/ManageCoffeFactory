@@ -10,7 +10,7 @@ const handleCatchError = (func: (req: NextApiRequest, res: NextApiResponse, next
 			console.log(error);
 			
 			let statusCode = 500
-			let message = 'Something went wrong'
+			let message = 'Hệ thống xảy ra vấn đề lỗi.'
 
             //Define error
             //Handle castError
@@ -30,7 +30,7 @@ const handleCatchError = (func: (req: NextApiRequest, res: NextApiResponse, next
         
               //Hand Mongoose duplicate key errors
               if (error.code === 11000) {
-                const messageError = `Duplicate ${Object.keys(error.keyValue)} entered`;
+                const messageError = `Dữ liệu đã tồn tại trong hệ thống.`;
                 statusCode = 400;
                 message = messageError;
               }

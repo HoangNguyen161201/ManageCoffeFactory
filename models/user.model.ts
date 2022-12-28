@@ -21,7 +21,7 @@ const userSchema = new Schema<IUser>({
         enum: ['user', 'admin'],
         default: 'user',
     },
-})
+}, {timestamps: true})
 
 const UserModel = models.User as Model<IUser, {}, {}, {}, any> || model<IUser>('User', userSchema)
 
