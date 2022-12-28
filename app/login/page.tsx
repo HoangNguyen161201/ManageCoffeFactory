@@ -1,11 +1,15 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import Toast from 'toastify-js'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { validateLogin } from '../../utils/validate'
+import Toast from '../../utils/Toast'
 import Input from '../../components/Input'
+import { useMutation } from 'react-query'
+import axios from 'axios'
+import { useEffect } from 'react'
+import { useAppContext } from '../../utils/context'
 
 interface Login {
     password?: string
@@ -13,6 +17,31 @@ interface Login {
 }
 
 export default function Login() {
+    const {setIsLoading} = useAppContext()
+    const { mutate, isError, isSuccess, isLoading } = useMutation(
+        (data: Login) => {
+            return axios.post('/api/auth/login', data)
+        }
+    )
+
+    useEffect(() => {
+        if (isError) {
+            Toast({
+                text: 'Số điện thoại hoặc mật khẩu không chính xác!',
+                type: 'error',
+            }).showToast()
+            setIsLoading(false)
+        }
+        if (isSuccess) {
+            Toast({
+                text: 'Đăng nhập thành công',
+                type: 'success',
+            }).showToast()
+            localStorage.setItem('login', 'true')
+            router.push('/main')
+        }
+    }, [isError, isSuccess])
+
     const router = useRouter()
 
     const form = useForm<Login>({
@@ -23,30 +52,11 @@ export default function Login() {
         },
     })
 
-    const { handleSubmit, setError } = form
+    const { handleSubmit } = form
 
-    const onSubmit = (values: Login) => {
-        const { password: pass } = values
-        if (pass != '29031998') {
-            setError(
-                'password',
-                { type: 'focus', message: 'Mật khẩu không chính xác!' },
-                { shouldFocus: true }
-            )
-            return
-        }
-
-        Toast({
-            text: 'Đăng nhập thành công',
-            duration: 3000,
-            gravity: 'top',
-            position: 'right',
-            style: {
-                background: '#36c148',
-                borderRadius: '8px',
-            },
-        }).showToast()
-        router.push('/')
+    const onSubmit = async (values: Login) => {
+        setIsLoading(true)
+        mutate(values)
     }
 
     return (
