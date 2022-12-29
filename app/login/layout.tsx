@@ -9,7 +9,10 @@ export default function MainLayout({
 }: {
     children: React.ReactNode
 }) {
-    const { isDark, isLoading, setIsLoading } = useAppContext()
+    const {
+        contextState: { isDark, isLoading },
+        setContextState,
+    } = useAppContext()
     const router = useRouter()
 
     useEffect(() => {
@@ -17,7 +20,10 @@ export default function MainLayout({
         if (isLogin == 'true') {
             router.push('/main')
         } else {
-            setIsLoading(false)
+            setContextState((state) => ({
+                ...state,
+                isLoading: false,
+            }))
         }
     }, [])
 

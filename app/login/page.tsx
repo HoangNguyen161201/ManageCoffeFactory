@@ -17,8 +17,8 @@ interface Login {
 }
 
 export default function Login() {
-    const {setIsLoading} = useAppContext()
-    const { mutate, isError, isSuccess, isLoading } = useMutation(
+    const { setContextState } = useAppContext()
+    const { mutate, isError, isSuccess } = useMutation(
         (data: Login) => {
             return axios.post('/api/auth/login', data)
         }
@@ -30,7 +30,10 @@ export default function Login() {
                 text: 'Số điện thoại hoặc mật khẩu không chính xác!',
                 type: 'error',
             }).showToast()
-            setIsLoading(false)
+            setContextState((state) => ({
+                ...state,
+                isLoading: false,
+            }))
         }
         if (isSuccess) {
             Toast({
@@ -55,7 +58,11 @@ export default function Login() {
     const { handleSubmit } = form
 
     const onSubmit = async (values: Login) => {
-        setIsLoading(true)
+        setContextState((state) => ({
+            ...state,
+            isLoading: true,
+            namePage: 'Trang chủ'
+        }))
         mutate(values)
     }
 

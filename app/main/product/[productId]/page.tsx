@@ -1,7 +1,7 @@
 'use client'
-import { useEffect } from 'react'
-import { useAppContext } from '../../utils/context'
+import { useAppContext } from '../../../../utils/context'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function page() {
     const { setContextState } = useAppContext()

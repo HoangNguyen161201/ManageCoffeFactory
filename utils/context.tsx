@@ -1,39 +1,46 @@
-import { createContext, useContext, ReactNode, useState } from 'react';
+import { createContext, useContext, ReactNode, useState, Dispatch, SetStateAction } from 'react'
+
+interface IContextState {
+  isDark: boolean
+  isLoading: boolean
+  isOpenMenu: boolean
+  namePage: string
+}
 
 const AppContext = createContext<{
-    isDark: boolean,
-    setIsDark: any,
-    isLoading: boolean,
-    setIsLoading: any,
-    isOpenMenu: boolean,
-    setIsOpenMenu: any
+  contextState: IContextState,
+  setContextState: Dispatch<SetStateAction<IContextState>>
 }>({
-    isDark: false,
-    setIsDark: ()=> {},
-    isLoading: true,
-    setIsLoading: ()=> {},
-    isOpenMenu: true,
-    setIsOpenMenu: ()=> {}
-});
+    contextState: {
+      isDark: false,
+      isLoading: true,
+      isOpenMenu: false,
+      namePage: 'Trang chủ'
+    },
+    setContextState: ()=> {}
+})
 
-export function AppWrapper({ children }: {children: ReactNode}) {
-  const [isDark, setIsDark] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isOpenMenu, setIsOpenMenu] = useState(false)
-  return (
-    <AppContext.Provider value={{
-        isDark,
-        setIsDark,
-        isLoading,
-        setIsLoading,
-        isOpenMenu,
-        setIsOpenMenu
-    }}>
-      {children}
-    </AppContext.Provider>
-  );
+
+
+export function AppWrapper({ children }: { children: ReactNode }) {
+    const [contextState, setContextState] = useState<IContextState>({
+      isLoading: true,
+      isDark: false,
+      isOpenMenu: false,
+      namePage: 'Trang chủ'
+    })
+  
+    return (
+        <AppContext.Provider
+            value={{
+              contextState,
+              setContextState
+            }}>
+            {children}
+        </AppContext.Provider>
+    )
 }
 
 export function useAppContext() {
-  return useContext(AppContext);
+    return useContext(AppContext)
 }
