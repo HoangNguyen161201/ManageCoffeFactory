@@ -4,6 +4,10 @@ import ProductModel from '../../../../models/product.model'
 import handleCatchError from '../../../../utils/catchAsyncError'
 import { DataResponse } from '../../../../utils/commonTypes'
 import connectMongo from '../../../../utils/connectMongo'
+import {
+    GoogleSheetInstance,
+    rangeGoogleSheet,
+} from '../../../../utils/googleSheet'
 
 const deleteProduct = handleCatchError(
     async (req: NextApiRequest, res: NextApiResponse<DataResponse>) => {
@@ -25,10 +29,25 @@ const deleteProduct = handleCatchError(
                 })
             }
 
-            //delete product
+            //soft delete product
             existProduct.delete({
-                _id: productId
+                _id: productId,
             })
+
+            //update status soft delete to google sheet
+            // Initialize the sheet
+            const doc = await GoogleSheetInstance()
+            const sheet = doc.sheetsByTitle[rangeGoogleSheet.product]
+            const rows = await sheet.getRows() // can pass in { limit, offset }
+
+            for (let index = 0; index < rows.length; index++) {
+                const row = rows[index]
+                if (row['Id'] == productId) {
+                    row['Trạng thái xóa'] = 'TRUE'
+                    await row.save()
+                    break
+                }
+            }
 
             return res.status(200).json({
                 statusCode: 200,

@@ -5,7 +5,7 @@ import handleCatchError from '../../../utils/catchAsyncError'
 import { DataResponse } from '../../../utils/commonTypes'
 import connectMongo from '../../../utils/connectMongo'
 
-const getAllProduct = handleCatchError(
+const getAllTrashProducts = handleCatchError(
     async (req: NextApiRequest, res: NextApiResponse<DataResponse>) => {
         if (req.method === 'GET') {
             //connect db
@@ -13,13 +13,13 @@ const getAllProduct = handleCatchError(
 
             //get all products
             const products = await ProductModel.find({
-                deleted: false
+                deleted: true
             })
 
             return res.status(200).json({
                 statusCode: 200,
                 success: true,
-                message: 'Lấy tất cả sản phẩm thành công.',
+                message: 'Lấy tất cả sản phẩm đã xóa thành công.',
                 products,
             })
         } else {
@@ -32,4 +32,4 @@ const getAllProduct = handleCatchError(
     }
 )
 
-export default getAllProduct
+export default getAllTrashProducts

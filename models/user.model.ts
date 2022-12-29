@@ -25,7 +25,7 @@ const userSchema = new Schema<IUser>({
 }, {timestamps: true})
 
 //Add plugin
-userSchema.plugin(mongooseDelete, {overrideMethods: 'all', deletedAt: true});
+userSchema.plugin(mongooseDelete, {deletedAt: true});
 
 const UserModel = models.User as Model<IUser, {}, {}, {}, any> || model<IUser>('User', userSchema)
 

@@ -2,9 +2,12 @@ import { Model, model, models, Schema } from 'mongoose'
 import mongooseDelete from 'mongoose-delete'
 
 export interface IProduct {
-    name: {
-        type: string
-    }
+    _id: string,
+    name: string,
+    deleted: boolean,
+    createdAt: Date,
+    updatedAt: Date,
+    deletedAt: Date
 }
 
 const productSchema = new Schema<IProduct>({
@@ -16,7 +19,7 @@ const productSchema = new Schema<IProduct>({
 }, {timestamps: true})
 
 //Add plugin
-productSchema.plugin(mongooseDelete, {overrideMethods: 'all',deletedAt: true});
+productSchema.plugin(mongooseDelete, {deletedAt: true});
 
 const ProductModel = models.Product as Model<IProduct, {}, {}, {}, any> || model<IProduct>('Product', productSchema)
 
