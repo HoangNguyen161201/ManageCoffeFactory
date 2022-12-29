@@ -14,15 +14,25 @@ export default function LinkNavigation({
 
     const router = useRouter()
 
-    const { setIsOpenMenu, setIsLoading } = useAppContext()
+    const { setContextState } = useAppContext()
     return (
         <div
             onClick={() => {
                 if (path != link) {
                     router.push(link)
-                    setIsLoading(true)
+                    setContextState((state)=> ({
+                        ...state,
+                        isLoading: true,
+                        namePage: text,
+                        isOpenMenu: false
+                    }))
+                    return
                 }
-                setIsOpenMenu(false)
+                setContextState((state)=> ({
+                    ...state,
+                    isOpenMenu: false
+                }))
+                
             }}
             className={`flex items-center mb-5 rounded-lg ${
                 path !== link && 'border'
